@@ -12,7 +12,7 @@ class Soldier(IPiece):
         directions = []
         max_X, max_Y = self.board.num_x - 1, self.board.num_y - 1
         x, y = position[0], position[1] 
-        if x < max_Y:
+        if y < max_Y:
             directions.append((0, 1))
         if y > self.board.bank:
             if x > 0:
