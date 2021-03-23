@@ -97,23 +97,23 @@ class Player:
                 for i in range(y, self.board.num_y, 1):
                     if not self.pieces[(x, i)] == None:
                         return True, (x, i)
-                return False, (x, y)
+                return False, (x, self.Max_y)
             if d_y < 0:
                 for i in range(y, -1, -1):
                     if not self.pieces[(x, i)] == None:
                         return True, (x, i)
-                return False, (x, y)
+                return False, (x, 0)
         if d_y == 0:
             if d_x > 0:
                 for i in range(x, self.board.num_x, 1):
                     if not self.pieces[(i, y)] == None:
                         return True, (i, y)
-                return False, (x, y)
+                return False, (self.Max_X, y)
             if d_x < 0:
                 for i in range(x, -1, -1):
                     if not self.pieces[(i, y)] == None:
                         return True, (i, y)
-                return False, (x, y)
+                return False, (0, y)
     
     def EnemyObstruct(self, x, y, direction=(0, 0)):
         inverted_position = self._Invert_Position((x, y))
