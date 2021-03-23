@@ -1,4 +1,4 @@
-from ..Piece import Soldier, IPiece
+from ..Piece import Soldier, IPiece, Chariot
 
 class Player:
     def __init__(self, isRed, board, debug=False):
@@ -33,6 +33,15 @@ class Player:
     def _Reset(self):
         self._Initial_Soldier()
 
+    def _register_to_board(self, positions, pieces):
+        if not self.isRed:
+            for i in range(len(positions)):
+                positions[i] = self._Invert_Position(positions[i])
+        for i, position in enumerate(positions):
+            x, y = position[0], position[1]
+            pieces[i].SetPosition(x, y)
+            self.board.AddPiece(x, y, pieces[i])
+
     def _Initial_Soldier(self):
         positions = [(0, 3), (2, 3), (4, 3), (6, 3), (8, 3)]
         soldiers = []
@@ -42,13 +51,18 @@ class Player:
             soldier = Soldier.Soldier(self.isRed, self.board)
             self.pieces[(x, y)] = soldier
             soldiers.append(soldier)
-        if not self.isRed:
-            for i in range(len(positions)):
-                positions[i] = self._Invert_Position(positions[i])
-        for i, position in enumerate(positions):
+        self._register_to_board(positions, soldiers)
+
+    def _Initial_Chariot(self):
+        positions = [(0, 0), (8, 0)]
+        chariots = []
+        for position in positions:
+            self.positions.append(position)
             x, y = position[0], position[1]
-            soldiers[i].SetPosition(x, y)
-            self.board.AddPiece(x, y, soldiers[i])
+            chariot = Chariot.Chariot(self.isRed, self.board)
+            self.pieces[(x, y)] = chariot
+            chariots.append(chariot)
+        self._register_to_board(positions, chariots)
     
     def MoveDirection(self, x, y):
         piece = self.pieces[(x, y)]
