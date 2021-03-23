@@ -32,6 +32,7 @@ class Player:
 
     def _Reset(self):
         self._Initial_Soldier()
+        self._Initial_Chariot()
 
     def _register_to_board(self, positions, pieces):
         if not self.isRed:
