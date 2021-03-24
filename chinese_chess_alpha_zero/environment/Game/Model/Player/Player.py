@@ -29,7 +29,7 @@ class Player:
 
     def SetEnemy(self, player):
         self.enemy = player
-
+ 
     def _Reset(self):
         self._Initial_Soldier()
         self._Initial_Soldier()
