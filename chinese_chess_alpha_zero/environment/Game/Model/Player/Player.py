@@ -146,6 +146,18 @@ class Player:
     def _Invert_Direction(self, direction):
         return (direction[0] * -1, direction[1] * -1)
 
+    def relativePosition(self, position):
+        if self.isRed:
+            return position
+        else:
+            return self._Invert_Position(position)
+
+    def relativeDirection(self, direction):
+        if self.isRed:
+            return direction
+        else:
+            return self._Invert_Direction(direction)
+
     def __str__(self):
         represent = f"Pieces left: {self.piecesLeft}\n"
         for position in self.positions:

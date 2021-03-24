@@ -9,10 +9,6 @@ class Chariot(IPiece):
         self.board = board
 
     def GetDirections(self, position, player):
-        """ 
-        test
-        test2
-        """
         x, y = position[0], position[1] 
         directions = []
         for ix, iy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
