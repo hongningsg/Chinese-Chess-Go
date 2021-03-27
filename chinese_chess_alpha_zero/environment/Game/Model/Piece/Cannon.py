@@ -9,52 +9,58 @@ class Cannon(IPiece):
         self.board = board
 
     def GetDirections(self, position, player):
-        x, y = position[0], position[1] 
+        x, y = position[0], position[1]
         directions = []
         for ix, iy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             obstructs = self._firstTwoPieces(position, (ix, iy), player)
             if len(obstructs) == 0:
                 max_X, max_Y = self.board.num_x - 1, self.board.num_y - 1
+                if ix == -1:
+                    max_X = 0
+                if iy == -1:
+                    max_Y = 0
                 directions.extend(self._slotsInDirection(ix, iy, x, y, max_X, max_Y))
             elif len(obstructs) == 1:
-                obstructPosition = obstructs[0]
-                max_X, max_Y = obstructPosition[0] - 1, obstructPosition[1] - 1
+                obstructPosition = obstructs[0][0]
+                max_X, max_Y = obstructPosition[0] - ix, obstructPosition[1] - iy
                 directions.extend(self._slotsInDirection(ix, iy, x, y, max_X, max_Y))
             else:
                 pivot = obstructs[0]
-                max_X, max_Y = pivot[0] - 1, pivot[1] - 1
+                max_X, max_Y = pivot[0][0] - ix, pivot[0][1] - iy
                 directions.extend(self._slotsInDirection(ix, iy, x, y, max_X, max_Y))
                 if not obstructs[1][1].isRed == player.isRed:
                     enemy = obstructs[1][0]
                     directions.extend([(enemy[0] - x, enemy[1] - y)])
+        print(player.color)
+        print(directions)
         return directions
 
     def _firstTwoPieces(self, position, direction, player):
-        x, y = position[0], position[1] 
         d_x, d_y = direction[0], direction[1]
+        x, y = position[0]+d_x, position[1]+d_y        
         max_X, max_Y = self.board.num_x - 1, self.board.num_y - 1
         obstructs = []
         piecesCount = 0
         if d_y > 0 and d_x == 0:   
-            while y < max_Y or piecesCount < 2:
+            while y <= max_Y and piecesCount < 2:
                 if not self.board.pieces[(x, y)] is None:
                     obstructs.append((player.relativePosition((x, y)), self.board.pieces[(x, y)]))
                     piecesCount += 1
                 y += 1
         elif d_y < 0 and d_x == 0:
-            while y > 0 or piecesCount < 2:
+            while y >= 0 and piecesCount < 2:
                 if not self.board.pieces[(x, y)] is None:
                     obstructs.append((player.relativePosition((x, y)), self.board.pieces[(x, y)]))
                     piecesCount += 1
                 y -= 1
         elif d_x > 0 and d_y == 0:
-            while x < max_X or piecesCount < 2:
+            while x <= max_X and piecesCount < 2:
                 if not self.board.pieces[(x, y)] is None:
                     obstructs.append((player.relativePosition((x, y)), self.board.pieces[(x, y)]))
                     piecesCount += 1
                 x += 1
         elif d_x < 0 and d_y == 0:
-            while x > 0 or piecesCount < 2:
+            while x >= 0 and piecesCount < 2:
                 if not self.board.pieces[(x, y)] is None:
                     obstructs.append((player.relativePosition((x, y)), self.board.pieces[(x, y)]))
                     piecesCount += 1
