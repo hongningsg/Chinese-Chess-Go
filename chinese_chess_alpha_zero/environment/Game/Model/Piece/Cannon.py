@@ -31,8 +31,6 @@ class Cannon(IPiece):
                 if not obstructs[1][1].isRed == player.isRed:
                     enemy = obstructs[1][0]
                     directions.extend([(enemy[0] - x, enemy[1] - y)])
-        print(player.color)
-        print(directions)
         return directions
 
     def _firstTwoPieces(self, position, direction, player):
@@ -43,26 +41,30 @@ class Cannon(IPiece):
         piecesCount = 0
         if d_y > 0 and d_x == 0:   
             while y <= max_Y and piecesCount < 2:
-                if not self.board.pieces[(x, y)] is None:
-                    obstructs.append((player.relativePosition((x, y)), self.board.pieces[(x, y)]))
+                abs_x, abs_y = player.relativePosition((x, y))
+                if not self.board.pieces[(abs_x, abs_y)] is None:
+                    obstructs.append(((x, y), self.board.pieces[(abs_x, abs_y)]))
                     piecesCount += 1
                 y += 1
         elif d_y < 0 and d_x == 0:
             while y >= 0 and piecesCount < 2:
-                if not self.board.pieces[(x, y)] is None:
-                    obstructs.append((player.relativePosition((x, y)), self.board.pieces[(x, y)]))
+                abs_x, abs_y = player.relativePosition((x, y))
+                if not self.board.pieces[(abs_x, abs_y)] is None:
+                    obstructs.append(((x, y), self.board.pieces[(abs_x, abs_y)]))
                     piecesCount += 1
                 y -= 1
         elif d_x > 0 and d_y == 0:
             while x <= max_X and piecesCount < 2:
-                if not self.board.pieces[(x, y)] is None:
-                    obstructs.append((player.relativePosition((x, y)), self.board.pieces[(x, y)]))
+                abs_x, abs_y = player.relativePosition((x, y))
+                if not self.board.pieces[(abs_x, abs_y)] is None:
+                    obstructs.append(((x, y), self.board.pieces[(abs_x, abs_y)]))
                     piecesCount += 1
                 x += 1
         elif d_x < 0 and d_y == 0:
             while x >= 0 and piecesCount < 2:
-                if not self.board.pieces[(x, y)] is None:
-                    obstructs.append((player.relativePosition((x, y)), self.board.pieces[(x, y)]))
+                abs_x, abs_y = player.relativePosition((x, y))
+                if not self.board.pieces[(abs_x, abs_y)] is None:
+                    obstructs.append(((x, y), self.board.pieces[(abs_x, abs_y)]))
                     piecesCount += 1
                 x -= 1
         else:
