@@ -1,4 +1,4 @@
-from ..Piece import Soldier, IPiece, Chariot, Cannon
+from ..Piece import Soldier, IPiece, Chariot, Cannon, Horse
 
 class Player:
     def __init__(self, isRed, board, debug=False):
@@ -34,6 +34,7 @@ class Player:
         self._Initial_Soldier()
         self._Initial_Chariot()
         self._Inital_Cannon()
+        self._Inital_Horse()
 
     def _register_to_board(self, positions, pieces):
         if not self.isRed:
@@ -76,6 +77,17 @@ class Player:
             self.pieces[(x, y)] = cannon
             cannons.append(cannon)
         self._register_to_board(positions, cannons)
+
+    def _Inital_Horse(self):
+        positions = [(1, 0), (7, 0)]
+        horses = []
+        for position in positions:
+            self.positions.append(position)
+            x, y = position[0], position[1]
+            horse = Horse.Horse(self.isRed, self.board)
+            self.pieces[(x, y)] = horse
+            horses.append(horse)
+        self._register_to_board(positions, horses)
     
     def MoveDirection(self, x, y):
         piece = self.pieces[(x, y)]
