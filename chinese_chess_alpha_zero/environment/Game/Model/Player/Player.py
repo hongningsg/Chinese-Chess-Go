@@ -175,23 +175,23 @@ class Player:
             return (not self.pieces[(x, y)] == None), (x, y)
         if d_x == 0:
             if d_y > 0:
-                for i in range(y, self.board.num_y, 1):
+                for i in range(y+1, self.board.num_y, 1):
                     if not self.pieces[(x, i)] == None:
                         return True, (x, i)
                 return False, (x, self.Max_y)
             if d_y < 0:
-                for i in range(y, -1, -1):
+                for i in range(y-1, -1, -1):
                     if not self.pieces[(x, i)] == None:
                         return True, (x, i)
                 return False, (x, 0)
         if d_y == 0:
             if d_x > 0:
-                for i in range(x, self.board.num_x, 1):
+                for i in range(x+1, self.board.num_x, 1):
                     if not self.pieces[(i, y)] == None:
                         return True, (i, y)
                 return False, (self.Max_X, y)
             if d_x < 0:
-                for i in range(x, -1, -1):
+                for i in range(x-1, -1, -1):
                     if not self.pieces[(i, y)] == None:
                         return True, (i, y)
                 return False, (0, y)
