@@ -1,0 +1,21 @@
+from .GameController import GameController
+
+def GeneralScript1():
+    game = GameController(True)
+    game.PrintBoard()
+    print(game.GetMoveOption(4, 0, game.red))
+    game.Red_Move(4, 0, 5, 0)
+    game.PrintBoard()
+    print(game.GetMoveOption(4, 0, game.black))
+    game.Black_Move(1, 2, 4, 2)
+    game.PrintBoard()
+    game.Red_Move(5, 0, 4, 0)
+    game.PrintBoard()
+    game.Black_Move(4, 2, 4, 6)
+    game.PrintBoard()
+    game.Red_Move(2, 0, 4, 2)
+    game.PrintBoard()
+    game.Black_Move(4, 6, 4, 9)
+    game.PrintBoard()
+    game.Red_Move(0, 0, 0, 1)
+    game.PrintBoard()

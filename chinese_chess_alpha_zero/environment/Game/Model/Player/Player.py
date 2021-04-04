@@ -1,4 +1,4 @@
-from ..Piece import Soldier, IPiece, Chariot, Cannon, Horse, Elephant
+from ..Piece import Soldier, IPiece, Chariot, Cannon, Horse, Elephant, General
 
 class Player:
     def __init__(self, isRed, board, debug=False):
@@ -6,6 +6,7 @@ class Player:
         self.debug = debug
         self.Max_X = board.num_x - 1
         self.Max_y = board.num_y - 1
+        self.generalPosition = None
         self.first = False
         self.invert = -1
         self.color = '黑色'
@@ -19,6 +20,7 @@ class Player:
         self.piecesLeft = 16
         self._Reset()
         self.enemy = None
+        self.alive = True
 
     def _Initial_board(self):
         pieces = {}
@@ -36,6 +38,7 @@ class Player:
         self._Inital_Cannon()
         self._Inital_Horse()
         self._Inital_Elephant()
+        self._Inital_General()
 
     def _register_to_board(self, positions, pieces):
         if not self.isRed:
@@ -101,6 +104,15 @@ class Player:
             elephants.append(elephant)
         self._register_to_board(positions, elephants)
     
+    def _Inital_General(self):
+        position = (4, 0)
+        self.generalPosition = position
+        x, y = position[0], position[1]
+        self.positions.append(position)
+        general = General.General(self.isRed, self.board)
+        self.pieces[(x, y)] = general
+        self._register_to_board([position], [general])
+
     def MoveDirection(self, x, y):
         piece = self.pieces[(x, y)]
         return piece.GetDirections((x, y), self)
@@ -124,6 +136,8 @@ class Player:
         piece = self.pieces[(x, y)]
         self.pieces[(x, y)] = None
         self.pieces[(new_x, new_y)] = piece
+        if isinstance(piece, General.General):
+            self.generalPosition = (new_x, new_y)
 
     def _Update_Position(self, x, y, new_x, new_y):
         for i in range(len(self.positions)):
@@ -132,12 +146,28 @@ class Player:
                 self.positions[i] = (new_x, new_y)
                 return
 
+    def LiveCheck(self):
+        movable = False
+        for position in self.positions:
+            piece = self.pieces[position]
+            if len(piece.GetDirections(position, self)) > 0:
+                movable = True
+        if not movable:
+            self.End()
+
     def Terminate(self, x, y):
         self.positions.remove((x, y))
         piece = self.pieces[(x, y)] 
         self.pieces[(x, y)] = None
         self.piecesLeft -= 1
         self.DeadCry(x, y, piece)
+        if self.generalPosition == (x, y):
+            self.End()
+
+    def End(self):
+        if self.debug:
+            print(f'完犊子了，我，{self.color}方嗝屁了！')
+        self.alive = False
 
     def FriendlyObstruct(self, x, y, direction=(0, 0)):
         d_x, d_y = direction[0], direction[1]
