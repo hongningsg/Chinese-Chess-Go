@@ -1,4 +1,4 @@
-from ..Piece import Soldier, IPiece, Chariot, Cannon, Horse, Elephant, General
+from ..Piece import Soldier, IPiece, Chariot, Cannon, Horse, Elephant, General, Guard
 
 class Player:
     def __init__(self, isRed, board, debug=False):
@@ -39,6 +39,7 @@ class Player:
         self._Inital_Horse()
         self._Inital_Elephant()
         self._Inital_General()
+        self._Inital_Guard()
 
     def _register_to_board(self, positions, pieces):
         if not self.isRed:
@@ -112,6 +113,17 @@ class Player:
         general = General.General(self.isRed, self.board)
         self.pieces[(x, y)] = general
         self._register_to_board([position], [general])
+
+    def _Inital_Guard(self):
+        positions = [(3, 0), (5, 0)]
+        guards = []
+        for position in positions:
+            self.positions.append(position)
+            x, y = position[0], position[1]
+            guard = Guard.Guard(self.isRed, self.board)
+            self.pieces[(x, y)] = guard
+            guards.append(guard)
+        self._register_to_board(positions, guards)
 
     def MoveDirection(self, x, y):
         piece = self.pieces[(x, y)]

@@ -4,7 +4,8 @@ import Game.Controller.HorseScript as HorseScript
 import Game.Controller.ElephantScript as ElephantScript
 import Game.Controller.GeneralScript as GeneralScript
 import Game.Controller.ChariotScript as ChariotScript
+import Game.Controller.GuardScript as GuardScript
 
 if __name__ == '__main__':
     # Script.PlayScript(Script.SoldierScript3)
-    Script.PlayScript(ChariotScript.ChariotScript1)
+    Script.PlayScript(GuardScript.GuardScript1)

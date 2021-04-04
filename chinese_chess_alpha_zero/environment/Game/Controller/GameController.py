@@ -94,3 +94,14 @@ class GameController:
         
     def PrintBoard(self):
         print(self.board)
+
+    def GetPiece(self, position):
+        return self.board.pieces[position]
+
+    def GetRelativePosition(self, piece):
+        abs_x = piece.x
+        abs_y = piece.y
+        if piece.isRed:
+            return (abs_x, abs_y)
+        else:
+            return self.black.relativePosition((abs_x, abs_y))
