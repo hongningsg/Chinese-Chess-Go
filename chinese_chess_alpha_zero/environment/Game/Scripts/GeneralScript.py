@@ -1,4 +1,4 @@
-from .GameController import GameController
+from ..Controller.GameController import GameController
 
 def GeneralScript1():
     game = GameController(True)

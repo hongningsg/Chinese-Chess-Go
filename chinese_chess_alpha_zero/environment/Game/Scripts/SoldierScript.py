@@ -1,7 +1,5 @@
-from .GameController import GameController
 
-def PlayScript(script):
-    script()
+from ..Controller.GameController import GameController
 
 def SoldierScript1():
     game = GameController(True)

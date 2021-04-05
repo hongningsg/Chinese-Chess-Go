@@ -105,3 +105,11 @@ class GameController:
             return (abs_x, abs_y)
         else:
             return self.black.relativePosition((abs_x, abs_y))
+
+    def GetPlayer(self, piece):
+        if not piece == None:
+            if piece.isRed:
+                return self.red
+            else:
+                return self.black
+        return None

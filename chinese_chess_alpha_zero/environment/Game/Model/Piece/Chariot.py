@@ -42,7 +42,7 @@ class Chariot(IPiece):
         elif iy == 1:
             directions.extend([(0, i) for i in range(1, e_y-y+1)])
         elif ix == -1:
-            directions.extend([(i, 0) for i in range(1, e_x-x-1)])
+            directions.extend([(i, 0) for i in range(-1, e_x-x-1, -1)])
         elif ix == 1:
             directions.extend([(i, 0) for i in range(1, e_x-x+1)])
         else:

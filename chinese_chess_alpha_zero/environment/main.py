@@ -1,11 +1,13 @@
-import Game.Controller.Script as Script
-import Game.Controller.CannonScript as CannonScript
-import Game.Controller.HorseScript as HorseScript
-import Game.Controller.ElephantScript as ElephantScript
-import Game.Controller.GeneralScript as GeneralScript
-import Game.Controller.ChariotScript as ChariotScript
-import Game.Controller.GuardScript as GuardScript
+import Game.Scripts.Script as Script
+import Game.Scripts.SoldierScript as SoldierScript
+import Game.Scripts.CannonScript as CannonScript
+import Game.Scripts.HorseScript as HorseScript
+import Game.Scripts.ElephantScript as ElephantScript
+import Game.Scripts.GeneralScript as GeneralScript
+import Game.Scripts.ChariotScript as ChariotScript
+import Game.Scripts.GuardScript as GuardScript
+import Game.Scripts.BoardScript as BoardScript
 
 if __name__ == '__main__':
     # Script.PlayScript(Script.SoldierScript3)
-    Script.PlayScript(GuardScript.GuardScript1)
+    Script.PlayScript(BoardScript.BoardScript1)
