@@ -35,7 +35,6 @@ class BoardController(GameController):
                 for direction in moveDirections:
                     d_x, d_y = player.relativeDirection(direction)
                     distinations.append((x + d_x, y + d_y))
-                # self.PrintDistinations(distinations)
                 return True, distinations
         return False, []
     
