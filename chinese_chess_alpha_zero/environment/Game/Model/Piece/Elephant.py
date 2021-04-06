@@ -17,6 +17,7 @@ class Elephant(IPiece):
             (8, 2)
         ]
         self.rule = self._LoadRule()
+        self.img = name + '.png'
 
     def GetDirections(self, position, player):
         directions = []

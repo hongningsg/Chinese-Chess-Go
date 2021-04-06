@@ -5,6 +5,7 @@ class IPiece(object):
         self.isRed = isRed
         self.name = name
         self.dead = False
+        self.img = None
 
     @staticmethod
     def NoImplementionException():

@@ -7,6 +7,7 @@ class Guard(IPiece):
             name = '仕'
         super().__init__(isRed, name, x, y)
         self.board = board
+        self.img = name + '.png'
 
     def GetDirections(self, position, player):
         x, y = position[0], position[1]

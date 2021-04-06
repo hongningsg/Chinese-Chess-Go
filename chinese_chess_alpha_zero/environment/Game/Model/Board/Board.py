@@ -6,6 +6,7 @@ class Board:
         self.num_y = 10
         self.bank = 4
         self.pieces = self._initial_board()
+        self.positions = []
 
     def _initial_board(self):
         pieces = {}
@@ -19,10 +20,12 @@ class Board:
     
     def MovePiece(self, x, y, new_x, new_y):
         currentPiece = self.GetPieceByPosition(new_x, new_y)
-        self.pieces[(new_x, new_y)] = self.pieces[(x, y)]
-        self.pieces[(new_x, new_y)].x = new_x
-        self.pieces[(new_x, new_y)].y = new_y
-        self.pieces[(x, y)] = None
+        if not self.pieces[(x, y)] is None:
+            self.pieces[(new_x, new_y)] = self.pieces[(x, y)]
+            self.pieces[(new_x, new_y)].x = new_x
+            self.pieces[(new_x, new_y)].y = new_y
+            self.pieces[(x, y)] = None
+            self._Update_Position(x, y, new_x, new_y)
         return currentPiece
 
     def isEmptyPosition(self, x, y):
@@ -33,6 +36,19 @@ class Board:
 
     def AddPiece(self, x, y, piece):
         self.pieces[(x, y)] = piece
+        self.positions.append((x, y))
+
+    def _Update_Position(self, x, y, new_x, new_y):
+        for i in range(len(self.positions)):
+            p = self.positions[i]
+            if p[0] == new_x and p[1] == new_y:
+                self.positions.pop(i)
+                break
+        for i in range(len(self.positions)):
+            p = self.positions[i]
+            if p[0] == x and p[1] == y:
+                self.positions[i] = (new_x, new_y)
+                return
 
     def __str__(self):
         represent = ''

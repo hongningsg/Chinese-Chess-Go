@@ -7,7 +7,9 @@ import Game.Scripts.GeneralScript as GeneralScript
 import Game.Scripts.ChariotScript as ChariotScript
 import Game.Scripts.GuardScript as GuardScript
 import Game.Scripts.BoardScript as BoardScript
+import Game.GUI.BoardGUI as BoardGUI
 
 if __name__ == '__main__':
-    # Script.PlayScript(Script.SoldierScript3)
-    Script.PlayScript(BoardScript.BoardScript1)
+    # Script.PlayScript(BoardScript.BoardScript1)
+    gui = BoardGUI.BoardGUI()
+    gui.Start()

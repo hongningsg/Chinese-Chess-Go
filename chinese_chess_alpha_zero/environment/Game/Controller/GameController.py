@@ -25,6 +25,13 @@ class GameController:
         self.alive = False 
         print(f'{player.color}方输了！')
 
+    def GetWinner(self):
+        assert self.alive == False, "游戏还没结束呢！"
+        if self.redNext:
+            return '黑色'
+        else:
+            return '红色'
+
     def NextPlayer(self):
         if self.redNext:
             return self.red

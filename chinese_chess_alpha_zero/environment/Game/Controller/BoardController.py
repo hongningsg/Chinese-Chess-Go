@@ -19,9 +19,11 @@ class BoardController(GameController):
             return self.Black_Move(x, y, new_x , new_y)
 
     def Select(self, position):
+        if not self.alive:
+            return False, []
         piece = self.GetPiece(position)
         if piece is None:
-            return False, None
+            return False, []
         x, y = position[0], position[1]
         if piece.isRed == self.redNext:
             relativePosition = self.GetRelativePosition(piece)
@@ -33,9 +35,9 @@ class BoardController(GameController):
                 for direction in moveDirections:
                     d_x, d_y = player.relativeDirection(direction)
                     distinations.append((x + d_x, y + d_y))
-                self.PrintDistinations(distinations)
+                # self.PrintDistinations(distinations)
                 return True, distinations
-        return False, None
+        return False, []
     
     def PrintDistinations(self, distinations):
         if self.debug:
