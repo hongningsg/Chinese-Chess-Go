@@ -22,7 +22,7 @@ class GameController:
         self.alive = True
 
     def GameOver(self, player):
-        self.alive = False 
+        self.alive = False
         print(f'{player.color}方输了！')
 
     def GetWinner(self):
@@ -39,6 +39,7 @@ class GameController:
             return self.black
 
     def GetMoveOption(self, x, y, player):
+        """(x,y) 的棋子可行进路径"""
         if player.pieces[(x, y)] is None:
             return False, []
         else:
@@ -106,6 +107,7 @@ class GameController:
         return self.board.pieces[position]
 
     def GetRelativePosition(self, piece):
+        """红方在下"""
         abs_x = piece.x
         abs_y = piece.y
         if piece.isRed:
