@@ -3,10 +3,10 @@ import os
 import pygame
 
 class BoardGUI:
-    def __init__(self, width=1000, height=1200, bg=(153, 102, 0)):
+    def __init__(self, width=1000, height=1200, bg_color=(153, 102, 0)):
         self.width = width
         self.height = height
-        self.bg = bg
+        self.bg_color = bg_color
         dirname = os.path.dirname(__file__)
         filename = os.path.join(dirname, 'Assets')
         self.asset_path = filename
@@ -33,7 +33,7 @@ class BoardGUI:
         end_location = None
         potentials = []
         while running:
-            screen.fill(self.bg)
+            screen.fill(self.bg_color)
             self.DrawBoard()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -112,6 +112,7 @@ class BoardGUI:
         screen.blit(image, location)
 
     def DrawBoard(self):
+        """Don't touch it!"""
         left_pad = self.width*0.03
         top_pad = self.height*0.03
         horizontal, vertical = self.width * 0.94 , self.height*0.94

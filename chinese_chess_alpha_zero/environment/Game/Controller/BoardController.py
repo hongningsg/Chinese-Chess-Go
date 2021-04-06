@@ -19,6 +19,7 @@ class BoardController(GameController):
             return self.Black_Move(x, y, new_x , new_y)
 
     def Select(self, position):
+        """返回：是否可走 + 所有可行进的路径"""
         if not self.alive:
             return False, []
         piece = self.GetPiece(position)
