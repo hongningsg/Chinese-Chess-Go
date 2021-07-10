@@ -44,7 +44,6 @@ class BoardController(GameController):
                     placeHolder = self.CreatePlaceHolder(0)
                     for position in options:
                         i, j = position[0], position[1]
-                        print(x, y, i, j)
                         placeHolder[j][i] = 1
                     select_x.append(placeHolder)
                 else:
