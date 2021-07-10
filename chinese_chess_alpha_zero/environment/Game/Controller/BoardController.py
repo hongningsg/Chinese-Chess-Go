@@ -1,10 +1,16 @@
 from ..Model.Player.Player import Player
 from ..Model.Board.Board import Board
 from .GameController import GameController
+from .BoardState import BoardState
+from  .Memory import GameMemory
 
 class BoardController(GameController):
     def __init__(self, debug=False):
         super().__init__(debug)
+        window = 5
+        maxNoProgress = 5
+        maxRepetition = 6
+        self.memory = GameMemory(window, maxNoProgress, maxRepetition)
 
     def MovePiece(self, x, y, new_x, new_y):
         piece = self.GetPiece((x, y))
@@ -13,10 +19,17 @@ class BoardController(GameController):
             return False
         x, y = player.relativePosition((x, y))
         new_x, new_y = player.relativePosition((new_x, new_y))
+        valid = False
         if player.isRed:
-            return self.Red_Move(x, y, new_x , new_y)
+            valid = self.Red_Move(x, y, new_x , new_y)
         else:
-            return self.Black_Move(x, y, new_x , new_y)
+            valid = self.Black_Move(x, y, new_x , new_y)
+        if valid:
+            direction = (new_x - x, new_y - y)
+            pieceCount = self.red.piecesLeft + self.black.piecesLeft
+            if self.memory.record(player.isRed, self.board, direction, pieceCount):
+                self.GameOver(None, True)
+        return valid
 
     def Select(self, position):
         """返回：是否可走 + 所有可行进的路径"""

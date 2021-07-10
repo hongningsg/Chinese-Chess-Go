@@ -11,6 +11,7 @@ class GameController:
         self.red.SetEnemy(self.black)
         self.black.SetEnemy(self.red)
         self.alive = True
+        self.tieEnd = False
     
     def ResetGame(self):
         self.board = Board()
@@ -20,17 +21,25 @@ class GameController:
         self.red.SetEnemy(self.black)
         self.black.SetEnemy(self.red)
         self.alive = True
+        self.tieEnd = False
 
-    def GameOver(self, player):
+    def GameOver(self, player, tie=False):
         self.alive = False
-        print(f'{player.color}方输了！')
+        if tie:
+            self.tieEnd = True
+            print(f'平局')
+        else:
+            print(f'{player.color}方输了！')
 
     def GetWinner(self):
         assert self.alive == False, "游戏还没结束呢！"
-        if self.redNext:
-            return '黑色'
+        if self.tieEnd:
+            return '平局'
         else:
-            return '红色'
+            if self.redNext:
+                return '黑色'
+            else:
+                return '红色'
 
     def NextPlayer(self):
         if self.redNext:

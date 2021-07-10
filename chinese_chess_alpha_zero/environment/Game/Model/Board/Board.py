@@ -17,7 +17,10 @@ class Board:
 
     def Reset(self):
         self.pieces = self._initial_board()
-    
+
+    def GetPieceByPosition(self, x, y):
+        return self.pieces[(x, y)]
+
     def MovePiece(self, x, y, new_x, new_y):
         currentPiece = self.GetPieceByPosition(new_x, new_y)
         if not self.pieces[(x, y)] is None:
@@ -29,10 +32,7 @@ class Board:
         return currentPiece
 
     def isEmptyPosition(self, x, y):
-        return self.GetPieceByPosition(x, y) == None
-
-    def GetPieceByPosition(self, x, y):
-        return self.pieces[(x, y)]
+        return self.GetPieceByPosition(x, y) is None
 
     def AddPiece(self, x, y, piece):
         self.pieces[(x, y)] = piece
@@ -61,3 +61,15 @@ class Board:
                 represent += '\t'
             represent += '\n\n'
         return represent
+
+    def Snapshot(self):
+        boardShot = []
+        for y in range(self.num_y - 1, -1, -1):
+            row = []
+            for x in range(self.num_x):
+                if self.pieces[(x, y)] is None:
+                    row.append('')
+                else:
+                    row.append(self.pieces[(x, y)].name)
+            boardShot.append(row)
+        return boardShot
