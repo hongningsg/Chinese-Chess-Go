@@ -1,11 +1,13 @@
 class IPiece(object):
-    def __init__(self, isRed, name, x=-1, y=-1):
+    def __init__(self, isRed, name, pid, x=-1, y=-1):
+        self.id = pid
         self.x = x
         self.y = y
         self.isRed = isRed
         self.name = name
         self.dead = False
         self.img = None
+
 
     @staticmethod
     def NoImplementionException():

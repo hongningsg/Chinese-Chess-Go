@@ -1,11 +1,11 @@
 from .IPiece import IPiece
 
 class Soldier(IPiece):
-    def __init__(self, isRed, board, x=-1, y=-1):
+    def __init__(self, isRed, board, pid, x=-1, y=-1):
         name = '卒'
         if isRed:
             name = '兵'
-        super().__init__(isRed, name, x, y)
+        super().__init__(isRed, name, pid, x, y)
         self.board = board
         self.img = name + '.png'
 

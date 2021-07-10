@@ -1,13 +1,13 @@
 from .IPiece import IPiece
 
 class General(IPiece):
-    def __init__(self, isRed, board, x=-1, y=-1):
+    def __init__(self, isRed, board, pid, x=-1, y=-1):
         name = '将'
         img = '将.png'
         if isRed:
             name = '帥'
             img = '帥.png'
-        super().__init__(isRed, name, x, y)
+        super().__init__(isRed, name, pid, x, y)
         self.board = board
         self.img = img
 

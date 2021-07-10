@@ -1,4 +1,5 @@
 from ..Controller.BoardController import BoardController
+from ..EnviornmentAPI import EnvApi
 import os
 import pygame
 
@@ -12,9 +13,11 @@ class BoardGUI:
         self.asset_path = filename
         self.screen = None
         self.game = None
+        self.api = None
 
     def Start(self):
         self.game = BoardController(True)
+        self.api = EnvApi(self.game)
         pygame.init()
         pygame.font.init()
         screen = pygame.display.set_mode([self.width, self.height])
@@ -61,6 +64,7 @@ class BoardGUI:
                         end_position = clickPosition
                         x, y, new_x, new_y = selectingPosition[0], selectingPosition[1], end_position[0], end_position[1]
                         if self.game.MovePiece(x, y, new_x, new_y):
+                            print(self.api.post())
                             end_location = self.PositionToLocation(end_position)
                             dropPiece = True
                             isSelecting = False

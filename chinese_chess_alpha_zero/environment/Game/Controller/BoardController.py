@@ -2,15 +2,18 @@ from ..Model.Player.Player import Player
 from ..Model.Board.Board import Board
 from .GameController import GameController
 from .BoardState import BoardState
-from  .Memory import GameMemory
+from .Memory import GameMemory
+
 
 class BoardController(GameController):
     def __init__(self, debug=False):
         super().__init__(debug)
         window = 5
-        maxNoProgress = 5
+        maxNoProgress = 50
         maxRepetition = 6
         self.memory = GameMemory(window, maxNoProgress, maxRepetition)
+        self.memory.initialState(True, self.board)
+        self.memory.getMoves(self.getMoves())
 
     def MovePiece(self, x, y, new_x, new_y):
         piece = self.GetPiece((x, y))
@@ -19,17 +22,35 @@ class BoardController(GameController):
             return False
         x, y = player.relativePosition((x, y))
         new_x, new_y = player.relativePosition((new_x, new_y))
-        valid = False
         if player.isRed:
-            valid = self.Red_Move(x, y, new_x , new_y)
+            valid = self.Red_Move(x, y, new_x, new_y)
         else:
-            valid = self.Black_Move(x, y, new_x , new_y)
+            valid = self.Black_Move(x, y, new_x, new_y)
         if valid:
             direction = (new_x - x, new_y - y)
             pieceCount = self.red.piecesLeft + self.black.piecesLeft
-            if self.memory.record(player.isRed, self.board, direction, pieceCount):
+            if self.memory.record(player.isRed, self.board, piece.name + str(piece.id), direction, pieceCount):
                 self.GameOver(None, True)
+            self.memory.getMoves(self.getMoves())
         return valid
+
+    def getMoves(self):
+        select_y = []
+        for y in range(10):
+            select_x = []
+            for x in range(9):
+                hasPiece, options = self.Select((x, y))
+                if hasPiece:
+                    placeHolder = self.CreatePlaceHolder(0)
+                    for position in options:
+                        i, j = position[0], position[1]
+                        print(x, y, i, j)
+                        placeHolder[j][i] = 1
+                    select_x.append(placeHolder)
+                else:
+                    select_x.append(self.CreatePlaceHolder(0))
+            select_y.append(select_x)
+        return select_y
 
     def Select(self, position):
         """返回：是否可走 + 所有可行进的路径"""
@@ -51,7 +72,7 @@ class BoardController(GameController):
                     distinations.append((x + d_x, y + d_y))
                 return True, distinations
         return False, []
-    
+
     def PrintDistinations(self, distinations):
         if self.debug:
             board = self.board
@@ -67,3 +88,10 @@ class BoardController(GameController):
                     represent += '\t'
                 represent += '\n\n'
             print(represent)
+
+    @staticmethod
+    def CreatePlaceHolder(value):
+        placeHolder = []
+        for i in range(10):
+            placeHolder.append([value for _ in range(9)])
+        return placeHolder

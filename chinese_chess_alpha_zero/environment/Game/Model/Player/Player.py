@@ -1,5 +1,6 @@
 from ..Piece import Soldier, IPiece, Chariot, Cannon, Horse, Elephant, General, Guard
 
+
 class Player:
     def __init__(self, isRed, board, debug=False):
         self.isRed = isRed
@@ -31,7 +32,7 @@ class Player:
 
     def SetEnemy(self, player):
         self.enemy = player
- 
+
     def _Reset(self):
         self._Initial_Soldier()
         self._Initial_Chariot()
@@ -53,83 +54,95 @@ class Player:
     def _Initial_Soldier(self):
         positions = [(0, 3), (2, 3), (4, 3), (6, 3), (8, 3)]
         soldiers = []
+        pid = 0
         for position in positions:
             self.positions.append(position)
             x, y = position[0], position[1]
-            soldier = Soldier.Soldier(self.isRed, self.board)
+            soldier = Soldier.Soldier(self.isRed, self.board, pid)
             self.pieces[(x, y)] = soldier
             soldiers.append(soldier)
+            pid += 1
         self._register_to_board(positions, soldiers)
 
     def _Initial_Chariot(self):
         positions = [(0, 0), (8, 0)]
         chariots = []
+        pid = 0
         for position in positions:
             self.positions.append(position)
             x, y = position[0], position[1]
-            chariot = Chariot.Chariot(self.isRed, self.board)
+            chariot = Chariot.Chariot(self.isRed, self.board, pid)
             self.pieces[(x, y)] = chariot
             chariots.append(chariot)
+            pid += 1
         self._register_to_board(positions, chariots)
 
     def _Inital_Cannon(self):
         positions = [(1, 2), (7, 2)]
         cannons = []
+        pid = 0
         for position in positions:
             self.positions.append(position)
             x, y = position[0], position[1]
-            cannon = Cannon.Cannon(self.isRed, self.board)
+            cannon = Cannon.Cannon(self.isRed, self.board, pid)
             self.pieces[(x, y)] = cannon
             cannons.append(cannon)
+            pid += 1
         self._register_to_board(positions, cannons)
 
     def _Inital_Horse(self):
         positions = [(1, 0), (7, 0)]
         horses = []
+        pid = 0
         for position in positions:
             self.positions.append(position)
             x, y = position[0], position[1]
-            horse = Horse.Horse(self.isRed, self.board)
+            horse = Horse.Horse(self.isRed, self.board, pid)
             self.pieces[(x, y)] = horse
             horses.append(horse)
+            pid += 1
         self._register_to_board(positions, horses)
 
     def _Inital_Elephant(self):
         positions = [(2, 0), (6, 0)]
         elephants = []
+        pid = 0
         for position in positions:
             self.positions.append(position)
             x, y = position[0], position[1]
-            elephant = Elephant.Elephant(self.isRed, self.board)
+            elephant = Elephant.Elephant(self.isRed, self.board, pid)
             self.pieces[(x, y)] = elephant
             elephants.append(elephant)
+            pid += 1
         self._register_to_board(positions, elephants)
-    
+
     def _Inital_General(self):
         position = (4, 0)
         self.generalPosition = position
         x, y = position[0], position[1]
         self.positions.append(position)
-        general = General.General(self.isRed, self.board)
+        general = General.General(self.isRed, self.board, 0)
         self.pieces[(x, y)] = general
         self._register_to_board([position], [general])
 
     def _Inital_Guard(self):
         positions = [(3, 0), (5, 0)]
         guards = []
+        pid = 0
         for position in positions:
             self.positions.append(position)
             x, y = position[0], position[1]
-            guard = Guard.Guard(self.isRed, self.board)
+            guard = Guard.Guard(self.isRed, self.board, pid)
             self.pieces[(x, y)] = guard
             guards.append(guard)
+            pid += 1
         self._register_to_board(positions, guards)
 
     def MoveDirection(self, x, y):
         piece = self.pieces[(x, y)]
         return piece.GetDirections((x, y), self)
 
-    def Move(self, x, y, new_x, new_y):      
+    def Move(self, x, y, new_x, new_y):
         self._Update_Position(x, y, new_x, new_y)
         self._Update_Piece(x, y, new_x, new_y)
         if not self.isRed:
@@ -143,7 +156,7 @@ class Player:
                 return self._Invert_Position((piece.x, piece.y))
         else:
             return (-1, -1)
-            
+
     def _Update_Piece(self, x, y, new_x, new_y):
         piece = self.pieces[(x, y)]
         self.pieces[(x, y)] = None
@@ -169,7 +182,7 @@ class Player:
 
     def Terminate(self, x, y):
         self.positions.remove((x, y))
-        piece = self.pieces[(x, y)] 
+        piece = self.pieces[(x, y)]
         self.pieces[(x, y)] = None
         self.piecesLeft -= 1
         self.DeadCry(x, y, piece)
@@ -187,27 +200,27 @@ class Player:
             return (not self.pieces[(x, y)] == None), (x, y)
         if d_x == 0:
             if d_y > 0:
-                for i in range(y+1, self.board.num_y, 1):
+                for i in range(y + 1, self.board.num_y, 1):
                     if not self.pieces[(x, i)] == None:
                         return True, (x, i)
                 return False, (x, self.Max_y)
             if d_y < 0:
-                for i in range(y-1, -1, -1):
+                for i in range(y - 1, -1, -1):
                     if not self.pieces[(x, i)] == None:
                         return True, (x, i)
                 return False, (x, 0)
         if d_y == 0:
             if d_x > 0:
-                for i in range(x+1, self.board.num_x, 1):
+                for i in range(x + 1, self.board.num_x, 1):
                     if not self.pieces[(i, y)] == None:
                         return True, (i, y)
                 return False, (self.Max_X, y)
             if d_x < 0:
-                for i in range(x-1, -1, -1):
+                for i in range(x - 1, -1, -1):
                     if not self.pieces[(i, y)] == None:
                         return True, (i, y)
                 return False, (0, y)
-    
+
     def EnemyObstruct(self, x, y, direction=(0, 0)):
         inverted_position = self._Invert_Position((x, y))
         inverted_direction = self._Invert_Direction(direction)
@@ -216,7 +229,7 @@ class Player:
 
     def DeadCry(self, x, y, piece):
         if self.debug:
-            print(f'{self.color}: 草了,吃老子在({x}, {y})的{piece.name}, 剩下{self.piecesLeft}个棋子啦!')            
+            print(f'{self.color}: 草了,吃老子在({x}, {y})的{piece.name}, 剩下{self.piecesLeft}个棋子啦!')
 
     def _Invert_Position(self, position):
         x, y = position[0], position[1]

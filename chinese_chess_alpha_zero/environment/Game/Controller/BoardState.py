@@ -1,42 +1,72 @@
 class BoardState:
-    def __init__(self, isRed, board, direction):
+    def __init__(self, isRed, board, pieceInfo, direction):
         self.isRed = isRed
         self.pieces = []
-        self.Snapshot(board)
+        self.board = board
+        self.Snapshot(board, isRed)
         self.direction = direction
+        self.pieceInfo = pieceInfo
 
-    def Snapshot(self, board):
+    def Snapshot(self, board, isRed):
         stateMap = {
-            '砲': 0,
-            '車': 1,
-            '象': 2,
-            '将': 3,
-            '士': 4,
-            '馬': 5,
-            '卒': 6,
-            '炮': 7,
-            '俥': 8,
-            '相': 9,
-            '帥': 10,
-            '仕': 11,
-            '傌': 12,
-            '兵': 13
+            '砲0': 0,
+            '砲1': 1,
+            '車0': 2,
+            '車1': 3,
+            '象0': 4,
+            '象1': 5,
+            '将0': 6,
+            '士0': 7,
+            '士1': 8,
+            '馬0': 9,
+            '馬1': 10,
+            '卒0': 11,
+            '卒1': 12,
+            '卒2': 13,
+            '卒3': 14,
+            '卒4': 15,
+            '炮0': 16,
+            '炮1': 17,
+            '俥0': 18,
+            '俥1': 19,
+            '相0': 20,
+            '相1': 21,
+            '帥0': 22,
+            '仕0': 23,
+            '仕1': 24,
+            '傌0': 25,
+            '傌1': 26,
+            '兵0': 27,
+            '兵1': 28,
+            '兵2': 29,
+            '兵3': 30,
+            '兵4': 31,
+            '颜色': 32
         }
-        for _ in stateMap:
-            self.pieces.append(self.CreatePlaceHolder())
-        for y in range(board.num_y - 1, -1, -1):
+        value = 0
+        if isRed:
+            value = 1
+        for _ in range(len(stateMap) - 1):
+            self.pieces.append(self.CreatePlaceHolder(0))
+        self.pieces.append(self.CreatePlaceHolder(value))
+        for y in range(board.num_y):
             for x in range(board.num_x):
-                if not board.pieces[(x, y)] is None:
-                    self.pieces[stateMap[board.pieces[(x, y)].name]][y][x] = 1
+                piece = board.pieces[(x, y)]
+                if not piece is None:
+                    self.pieces[stateMap[piece.name + str(piece.id)]][y][x] = 1
 
     @staticmethod
-    def CreatePlaceHolder():
+    def CreatePlaceHolder(value):
         placeHolder = []
         for i in range(10):
-            placeHolder.append([0 for _ in range(9)])
+            placeHolder.append([value for _ in range(9)])
         return placeHolder
 
     def equal(self, state):
-        if state.direction[0] + self.direction[0] == 0 and state.direction[1] + self.direction[1] == 0:
-            return True
+        if self.pieceInfo == state.pieceInfo:
+            if state.direction[0] + self.direction[0] == 0 and state.direction[1] + self.direction[1] == 0:
+                return True
         return False
+
+    def copy(self):
+        return BoardState(self.isRed, self.board, self.pieceInfo, self.direction)
